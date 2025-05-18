@@ -1,0 +1,18 @@
+{
+  "name": "predavanje.23-weather-app",
+  "version": "1.0.0",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "watch": "webpack --watch"
+  },
+  "author": "Mladen Kitic",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "axios": "^1.9.0",
+    "webpack": "^5.99.8",
+    "webpack-cli": "^6.0.1"
+  }
+}
