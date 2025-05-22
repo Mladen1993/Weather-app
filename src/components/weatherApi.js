@@ -10,3 +10,33 @@ export async function getCurrentWeatherForLocation(location) {
     },
   });
 }
+
+export async function getforecastForSeveralDays(location, days) {
+  const response = await axios.get(
+    "https://api.weatherapi.com/v1/forecast.json",
+    {
+      params: {
+        key: apiKey,
+        q: location,
+        days: days,
+        aqi: "no",
+        alerts: "no",
+      },
+    }
+  );
+
+  const datas = response.data.forecast.forecastday;
+  let forecastDiv = document.querySelector(".forecast");
+  forecastDiv.innerHTML = "";
+
+  for (let data of datas) {
+    let forecastEl = document.createElement("div");
+
+    forecastEl.innerHTML = ` <p>Date: ${data.date} </p>
+                            <p>Maxtepm: ${data.day.maxtemp_c} </p>
+                            <p>Mintepm: ${data.day.mintemp_c} </p>`;
+    forecastDiv.append(forecastEl);
+
+    console.log(data);
+  }
+}

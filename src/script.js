@@ -1,6 +1,7 @@
 import axios from "axios";
 import { getUserLocation } from "./components/location";
 import { getCurrentWeatherForLocation } from "./components/weatherApi";
+import { getforecastForSeveralDays } from "./components/weatherApi";
 
 let location = localStorage.getItem("location") || getUserLocation();
 
@@ -11,13 +12,11 @@ document.querySelector(".locationBtn").addEventListener("click", () => {
 
   localStorage.setItem("location", location);
 
-  window.location.reload();
+  getforecastForSeveralDays(location, 4);
 });
 
-//https://api.weatherapi.com/v1/current.json?key=e0bed337d7c742e29de190826251905&q=london&aqi=no
-
 const response = await getCurrentWeatherForLocation(location);
-console.log(response);
+
 if (!response.data.current.is_day) {
   document.querySelector("body").style.backgroundColor = "#252222";
 }
