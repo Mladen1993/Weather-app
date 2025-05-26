@@ -1,7 +1,11 @@
 import axios from "axios";
 import { getUserLocation } from "./components/location";
-import { getCurrentWeatherForLocation } from "./components/weatherApi";
-import { getforecastForSeveralDays } from "./components/weatherApi";
+import {
+  getCurrentWeatherForLocation,
+  getforecastForSeveralDays,
+  getWeatherInFuture,
+} from "./components/weatherApi";
+import { getDateInFuture } from "./helper/dateHelper";
 
 let location = localStorage.getItem("location") || getUserLocation();
 
@@ -35,6 +39,7 @@ for (let res of forecastResponse.data.forecast.forecastday) {
   forecastDiv.append(forecastEl);
 }
 
-// data
-//location
-// :country
+const dateFormatted = await getDateInFuture(30);
+const futureWeater = await getWeatherInFuture(location, dateFormatted);
+
+console.log(futureWeater);
