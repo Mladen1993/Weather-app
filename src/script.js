@@ -17,7 +17,7 @@ document.querySelector(".locationBtn").addEventListener("click", () => {
 
   localStorage.setItem("location", location);
 });
-
+/*
 document
   .querySelector(".showWeatherForMyLocation")
   .addEventListener("click", async () => {
@@ -35,10 +35,11 @@ document
       if (citiName.includes("Municipality")) {
         citiName = citiName.replace("Municipality", "");
       }
-      console.log(citiName);
-      // localStorage.setItem("location", firstWord);
+
+      // localStorage.setItem("location", citiName);
     });
   });
+*/
 
 const response = await getCurrentWeatherForLocation(location);
 
@@ -53,8 +54,8 @@ forecastDiv.innerHTML = "";
 
 for (let res of forecastResponse.data.forecast.forecastday) {
   let forecastEl = document.createElement("div");
-
-  forecastEl.innerHTML = ` <p> City: ${forecastResponse.data.location.country} </p>
+  console.log(forecastResponse.data.location);
+  forecastEl.innerHTML = ` <p> City: ${forecastResponse.data.location.name} </p>
                             <p>Date: ${res.date} </p>
                           <p>Maxtepm: ${res.day.maxtemp_c} </p>
                           <p>Mintepm: ${res.day.mintemp_c} </p>`;
@@ -62,7 +63,7 @@ for (let res of forecastResponse.data.forecast.forecastday) {
   forecastDiv.append(forecastEl);
 }
 
-const dateFormatted = await getDateInFuture(30);
-const futureWeater = await getWeatherInFuture(location, dateFormatted);
+// const dateFormatted = await getDateInFuture(10);
+const futureWeater = await getWeatherInFuture(location, 5);
 
 console.log(futureWeater);
