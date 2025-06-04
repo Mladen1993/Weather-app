@@ -16,6 +16,7 @@ document.querySelector(".locationBtn").addEventListener("click", () => {
   let location = getUserLocation();
 
   localStorage.setItem("location", location);
+  window.location.reload();
 });
 /*
 document
@@ -40,13 +41,28 @@ document
     });
   });
 */
-
+// current forecaste
 const response = await getCurrentWeatherForLocation(location);
 
-if (!response.data.current.is_day) {
-  document.querySelector("body").style.backgroundColor = "#252222";
+if (response.data.current.is_day) {
+  document.body.classList.add("day");
+  document.body.classList.remove("night");
+} else {
+  document.body.classList.add("night");
+  document.body.classList.remove("day");
 }
 
+let currentForecastDiv = document.querySelector(".currentforecast");
+
+let currentForecastEl = document.createElement("div");
+currentForecastEl.innerHTML = `<p>${response.data.location.name}</p>
+  <p>${response.data.current.temp_c}°C</p>
+  <p>${response.data.current.condition.text}</p>
+  <img src="${response.data.current.condition.icon}" alt="icon" />`;
+
+currentForecastDiv.append(currentForecastEl);
+
+//forecaste for several days
 const forecastResponse = await getforecastForSeveralDays(location, 3);
 
 let forecastDiv = document.querySelector(".forecast");
@@ -54,16 +70,16 @@ forecastDiv.innerHTML = "";
 
 for (let res of forecastResponse.data.forecast.forecastday) {
   let forecastEl = document.createElement("div");
-  console.log(forecastResponse.data.location);
-  forecastEl.innerHTML = ` <p> City: ${forecastResponse.data.location.name} </p>
-                            <p>Date: ${res.date} </p>
+  forecastEl.classList.add("forecastForSeveralDays");
+  console.log(res);
+  forecastEl.innerHTML = ` <p>  ${forecastResponse.data.location.name} </p>
+                            <p> ${res.date} </p>
                           <p>Maxtepm: ${res.day.maxtemp_c} </p>
-                          <p>Mintepm: ${res.day.mintemp_c} </p>`;
+                          <p>Mintepm: ${res.day.mintemp_c} </p>
+                          <img src="${res.day.condition.icon}" alt ="icon" />`;
 
   forecastDiv.append(forecastEl);
 }
 
 // const dateFormatted = await getDateInFuture(10);
 const futureWeater = await getWeatherInFuture(location, 5);
-
-console.log(futureWeater);
