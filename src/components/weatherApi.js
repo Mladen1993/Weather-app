@@ -10,7 +10,9 @@ export async function getCurrentWeatherForLocation(location) {
       },
     });
   } catch (exception) {
-    return alert("Someting went wrong with geting weather for current weather");
+    return alert(
+      "Someting went wrong with geting weather for current location try again"
+    );
   }
 }
 
